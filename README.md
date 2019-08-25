@@ -1,11 +1,9 @@
 # DS_Book_Recommender
 ### Book Recommender Capstopne Project for Udacity Data Science nanodegree
 
-This Flask Web app uses Machine Learning to predict the classification of a given typical disaster emergency response text message. For example, if the input is: "My house is burning down", the classification category should be "Fire". This application is useful to identify emergency response services required.
+This Python script uses a dataset containing six million ratings and tags for the ten thousand most popular books. It requests the user to rate as many as 60 books on a scale 1 - 5; and then requests the user to enter a number of tags that may be of interest from a list of 39. 
 
-This Python script uses a dataset containing six million ratings for the ten thousand most popular books and classified with tags. It requests the user to rate as many as 60 books on a scale 1 - 5; and then requests the user to include a number of tags that may be of interest from a list of 39. 
-
-The information provided by the user is used by the engine to compare the user against other readers in a database containing over 53,000 readers with ratings of 10,000 books.
+The engine uses the user's input and compares it to other readers in a database containing over 53,000 readers with ratings of 10,000 books.
 
 The data was obtained from fastml.com which in turn is based on the well-known goodreads.com website. 
 
@@ -14,12 +12,8 @@ This script was developed using Python and SKLearn machine learning libraries fo
 ### Installation: 
 Clone the GitHub repository and use Anaconda distribution of Python 3.6.7.
 
-    $ git clone https://github.com/cristiandatum/DS_Response_Pipeline.git
+    $ git clone https://github.com/cristiandatum/DS_Book_Recommender.git
 
-In addition This will require pip installation of the following:
-
-    $ pip install SQLAlchemy
-    $ pip install nltk
 
 The code can be viewed and modified with Jupyter Notebooks.
 
@@ -27,33 +21,30 @@ The code can be viewed and modified with Jupyter Notebooks.
 
 Run the following commands in the project's root directory to set up your database and model.
 
-To run ETL pipeline that cleans data and stores in database:
+To run the book recommendation engine:
 
-    $ python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db
-
-To run ML pipeline that trains classifier and saves model:
-
-    $ python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl
-
-Run the following command: model in the app's directory to run your web app: 
-
-    $ python app/run.py
-    
- Go to: `http://0.0.0.0:3001/`
+    $ python run.py
 
 ### Built With:
+- Jupyter Notebooks
 - Visual Studio Code
-- Udacity Project Workspace IDE
 
 ### Authors:
 Cristian Alberch
 https://github.com/cristiandatum
 
+You can contact the author on: cristian.alberch@outlook.com
+
 ### License:
-This project is licensed under the MIT License.
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. 
+
+To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.
 
 Feel free to use the code in the Jupyter Notebook as you like.
 
 ### Acknowledgments:
-The .csv files containing data from real disaster response messages was provided by Udacity from Figure Eight.
-The started code was provided by Udacity.
+The .csv files containing data from Goodreads was obtained from:
+
+http://fastml.com/goodbooks-10k-a-new-dataset-for-book-recommendations/
+
+https://github.com/zygmuntz/goodbooks-10k.git
