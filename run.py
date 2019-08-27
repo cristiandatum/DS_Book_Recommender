@@ -152,16 +152,15 @@ def query_genre_likes(genres):
     
     counter=1
     
-    print ("Please enter your genres of interest: \n \
-    1: action , 2: adult , 3: adventure , 4: all-time-favorites , 5: american ,\
-    6: biography , 7: bookclub ,8: british , 9: children , 10: classics , \
-    11: comedy , 12: coming-of-age , 13: contemporary , 14: crime , 15: drama ,\
-    16: english , 17: family , 18: fantasy , 19: friendship , 20: historical , \
-    21: history ,22: horror , 23: kids , 24: literature , 25: love , \
-    26: magic , 27: mystery , 28: non-fiction , 29: paranormal , \
-    30: philosophy , 31: relationships , 32: romance , 33: school , \
-    34: sci-fi , 35: suspense ,36: teen , 37: war , 38: women , \
-    39: SURPRISE-ME")
+    print ("Please enter your genres of interest: \n\
+1: action , 2: adult , 3: adventure , 4: all-time-favorites , 5: american ,\n\
+6: biography , 7: bookclub ,8: british , 9: children , 10: classics ,\n\
+11: comedy , 12: coming-of-age , 13: contemporary , 14: crime , 15: drama ,\n\
+16: english , 17: family , 18: fantasy , 19: friendship , 20: historical ,\n\
+21: history ,22: horror , 23: kids , 24: literature , 25: love ,\n\
+26: magic , 27: mystery , 28: non-fiction , 29: paranormal , 30: philosophy ,\n\
+31: relationships , 32: romance , 33: school , 34: sci-fi , 35: suspense ,\n\
+36: teen , 37: war , 38: women , 39: SURPRISE-ME!")
 
     print ("Type 99 when finished.")
     
@@ -342,8 +341,14 @@ user_ratings=query_book_ratings(query_dict)
 #query user on genres
 user_genres=query_genre_likes(genres)
 
+#print waiting message:
+
 #get user-user collaborative filters
+start_time = time.time()
+print('\n Please wait... calculating for you...\n')
 book_wmeans=weighted_mean(df_ratings, user_ratings, sample_size = 100)
+elapsed_time = time.time() - start_time
+print('Calculation time (sec): ', int(elapsed_time),'\n')
 
 #map weighting to books
 book_recommends=list(map(itemgetter(0), book_wmeans))
