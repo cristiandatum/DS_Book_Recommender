@@ -48,3 +48,8 @@ The .csv files containing data from Goodreads was obtained from:
 http://fastml.com/goodbooks-10k-a-new-dataset-for-book-recommendations/
 
 https://github.com/zygmuntz/goodbooks-10k.git
+
+#### Thanks to:
+
+- Philipp Spachtholz, for his thorough analysis of the data and building the first recommender based on goodbooks-10k.
+- Maciej Kula, for adding the dataset to Spotlight
