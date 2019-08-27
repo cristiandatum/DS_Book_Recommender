@@ -80,14 +80,14 @@ query_dict={
 }
 
 genres={1:'action', 2:'adult', 3:'adventure', 4:'all-time-favorites',\
-        5:'american', 6:'biography', 7:'bookclub', 8:'british', 9:'children', \
-        10:'classics', 11:'comedy', 12:'coming-of-age', 13:'contemporary', \
-        14:'crime', 15:'drama', 16:'english', 17:'family', 18:'fantasy', \
-        19:'friendship' , 20:'historical', 21:'history', 22:'horror', \
-        23:'kids', 24:'literature', 25:'love', 26:'magic',27:'mystery', \ 
-        28:'non-fiction', 29:'paranormal', 30:'philosophy', 31:'relationships',\
-        32:'romance' , 33:'school', 34:'sci-fi', 35:'suspense', 36:'teen', \
-        37:'war', 38:'women', 39:'SURPRISE-ME!' }
+5:'american', 6:'biography', 7:'bookclub', 8:'british', 9:'children',\
+10:'classics', 11:'comedy', 12:'coming-of-age', 13:'contemporary',\
+14:'crime', 15:'drama', 16:'english', 17:'family', 18:'fantasy',\
+19:'friendship' , 20:'historical', 21:'history', 22:'horror',\
+23:'kids', 24:'literature', 25:'love', 26:'magic',27:'mystery', \
+28:'non-fiction', 29:'paranormal', 30:'philosophy', 31:'relationships',\
+32:'romance' , 33:'school', 34:'sci-fi', 35:'suspense', 36:'teen', \
+37:'war', 38:'women', 39:'SURPRISE-ME!'}
 
 def query_book_ratings(query_dict):
     
@@ -194,7 +194,23 @@ def query_genre_likes(genres):
     
     return sorted(list(set(user_genres)))
 
-user_genres=query_genre_likes(genres)
+
+
+def get_book_titles(booklist):
+    '''
+    INPUT: 
+    - booklist: a list with book_ids
+
+    OUTPUT: 
+    -titles_dict: dictionary with key: book_id, value: book title and author
+    '''
+    
+    df_mask=df_books[df_books['book_id'].isin(booklist)]\
+        [['book_id','title','authors']]
+    titles_dict = dict(zip(df_mask['book_id'],\
+        df_mask['title'].str.cat(df_mask[['authors']], sep=' - by: ')))
+    
+    return titles_dict
 
 def weighted_mean(df_ratings, user_ratings, sample_size = 100):
     
@@ -304,10 +320,12 @@ def genre_filter(user_genres,user_ratings,book_recommends,number=5):
     df_book_filter=df_tags[df_tags['tag_id'].isin(user_genres)]
     
     #filter out books already rated by user.
-    df_book_filter=df_book_filter[~df_book_filter['book_id'].isin(list(user_ratings.keys()))]
+    df_book_filter=df_book_filter[~df_book_filter['book_id'].\
+        isin(list(user_ratings.keys()))]
     
     #filter for books included in book_recommends.
-    df_book_filter=df_book_filter[df_book_filter['book_id'].isin(book_recommends[:number])]
+    df_book_filter=df_book_filter[df_book_filter['book_id'].\
+        isin(book_recommends[:number])]
     
     if df_book_filter.shape[0]<number:
         
@@ -318,4 +336,17 @@ def genre_filter(user_genres,user_ratings,book_recommends,number=5):
     
     return final_recommend
 
-    print(genre_filter(user_genres,user_ratings,book_recommends,number=5))
+#query user on book ratings:
+user_ratings=query_book_ratings(query_dict)
+
+#query user on genres
+user_genres=query_genre_likes(genres)
+
+#get user-user collaborative filters
+book_wmeans=weighted_mean(df_ratings, user_ratings, sample_size = 100)
+
+#map weighting to books
+book_recommends=list(map(itemgetter(0), book_wmeans))
+
+#apply genre_filter to user-user and print book recommendations
+print(genre_filter(user_genres,user_ratings,book_recommends,number=5))
